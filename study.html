@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aman mishra study Organizer</title>
+    <meta name="description" content="Organize subjects, topics, assignments, notes, PYQs, and marks." />
+    <meta name="theme-color" content="#0ea5e9" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="study.css" />
+    <script defer src="study.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container">
+        <a href="#" class="brand"> Aman mishraS study Organizer</a>
+        <div class="nav-right">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
+          </button>
+          <div id="userMenu" class="user-menu" hidden>
+            <span id="userEmail" class="muted"></span>
+            <button id="logoutBtn" class="btn btn-secondary sm" title="Logout">Logout</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section id="authSection" class="card auth">
+        <div class="tabs" role="tablist">
+          <button id="loginTab" class="tab active" role="tab" aria-controls="loginPanel" aria-selected="true">Login</button>
+          <button id="signupTab" class="tab" role="tab" aria-controls="signupPanel" aria-selected="false">Sign up</button>
+        </div>
+        <div id="loginPanel" class="tab-panel" role="tabpanel">
+          <form id="loginForm" class="grid-form">
+            <label>Email<input required type="email" id="loginEmail" autocomplete="email" /></label>
+            <label>Password<input required type="password" id="loginPassword" autocomplete="current-password" /></label>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+        <div id="signupPanel" class="tab-panel hidden" role="tabpanel">
+          <form id="signupForm" class="grid-form">
+            <label>Email<input required type="email" id="signupEmail" autocomplete="email" /></label>
+            <label>Password<input required type="password" id="signupPassword" minlength="6" autocomplete="new-password" /></label>
+            <button type="submit" class="btn btn-primary">Create account</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="appSection" class="app" hidden>
+        <div class="subnav">
+          <button class="subnav-link active" data-target="subjectsSection">Subjects</button>
+          <button class="subnav-link" data-target="assignmentsSection">Assignments</button>
+          <button class="subnav-link" data-target="notesSection">Notes</button>
+          <button class="subnav-link" data-target="pyqSection">PYQs</button>
+          <button class="subnav-link" data-target="marksSection">Marks</button>
+          <button class="subnav-link" data-target="shareSection">Share & Requests</button>
+        </div>
+
+        <section id="subjectsSection" class="panel">
+          <div class="panel-header">
+            <h2>Subjects & Topics</h2>
+            <form id="addSubjectForm" class="inline-form">
+              <input id="newSubjectName" placeholder="New subject name" required />
+              <button type="submit" class="btn btn-primary">Add Subject</button>
+            </form>
+          </div>
+          <div id="subjectsList" class="cards"></div>
+          <dialog id="subjectDialog">
+            <form method="dialog" class="dialog-body" id="subjectDetailForm">
+              <header class="dialog-header">
+                <h3 id="subjectDialogTitle">Subject</h3>
+                <button value="cancel" class="icon-btn" aria-label="Close">✖</button>
+              </header>
+              <div class="dialog-content">
+                <div class="two-col">
+                  <div>
+                    <h4>Pending Topics</h4>
+                    <form id="addTopicForm" class="inline-form">
+                      <input id="newTopicTitle" placeholder="Add topic" required />
+                      <button type="submit" class="btn btn-secondary">Add</button>
+                    </form>
+                    <ul id="pendingTopics" class="list"></ul>
+                  </div>
+                  <div>
+                    <h4>Completed</h4>
+                    <ul id="completedTopics" class="list"></ul>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </dialog>
+        </section>
+
+        <section id="assignmentsSection" class="panel hidden">
+          <div class="panel-header">
+            <h2>Assignments</h2>
+            <form id="addAssignmentForm" class="grid-form compact">
+              <input id="assignmentTitle" placeholder="Title" required />
+              <input id="assignmentSubject" placeholder="Subject" />
+              <input id="assignmentDue" type="date" required />
+              <select id="assignmentStatus">
+                <option value="pending">Pending</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+          </div>
+          <div id="assignmentAlerts" class="alerts"></div>
+          <div id="assignmentsList" class="list-cards"></div>
+        </section>
+
+        <section id="notesSection" class="panel hidden">
+          <div class="panel-header">
+            <h2>Notes</h2>
+            <form id="addNoteForm" class="grid-form compact">
+              <input id="noteTitle" placeholder="Title" required />
+              <input id="noteSubject" placeholder="Subject" />
+              <textarea id="noteText" rows="3" placeholder="Write a note..."></textarea>
+              <div class="file-row">
+                <input id="noteFile" type="file" accept="application/pdf,image/*,.doc,.docx" />
+                <button type="button" id="uploadNoteFileBtn" class="btn btn-secondary">Upload file</button>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Note</button>
+            </form>
+          </div>
+          <div class="two-col">
+            <div>
+              <h4>Text Notes</h4>
+              <ul id="notesList" class="list"></ul>
+            </div>
+            <div>
+              <h4>Files</h4>
+              <ul id="filesList" class="list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="pyqSection" class="panel hidden">
+          <div class="panel-header">
+            <h2>Previous Year Questions</h2>
+            <form id="addPyqForm" class="grid-form compact">
+              <input id="pyqSubject" placeholder="Subject" required />
+              <input id="pyqYear" type="number" min="1990" max="2100" placeholder="Year" required />
+              <input id="pyqFile" type="file" accept="application/pdf,image/*" required />
+              <button type="submit" class="btn btn-primary">Upload PYQ</button>
+            </form>
+          </div>
+          <ul id="pyqList" class="list"></ul>
+        </section>
+
+        <section id="marksSection" class="panel hidden">
+          <div class="panel-header">
+            <h2>Marks Tracker</h2>
+            <form id="marksForm" class="grid-form compact">
+              <input id="m1" type="number" min="0" placeholder="Exam 1 marks" required />
+              <input id="m2" type="number" min="0" placeholder="Exam 2 marks" required />
+              <input id="m3" type="number" min="0" placeholder="Exam 3 marks" required />
+              <input id="finalMax" type="number" min="1" placeholder="Final exam max marks" required />
+              <input id="passingTotal" type="number" min="1" placeholder="Total marks required to pass" required />
+              <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+          </div>
+          <div id="marksResult" class="alerts"></div>
+        </section>
+
+        <section id="shareSection" class="panel hidden">
+          <div class="panel-header">
+            <h2>Assignment Sharing & Requests</h2>
+          </div>
+          <div class="two-col">
+            <div>
+              <h4>Share an Assignment</h4>
+              <form id="shareAssignmentForm" class="grid-form compact">
+                <input id="shareAssignmentId" placeholder="Assignment ID" required />
+                <input id="shareNote" placeholder="Note (optional)" />
+                <button type="submit" class="btn btn-primary">Share</button>
+              </form>
+              <h4 style="margin-top:1rem">Shared Feed</h4>
+              <ul id="sharedFeed" class="list"></ul>
+            </div>
+            <div>
+              <h4>Request an Assignment</h4>
+              <form id="requestForm" class="grid-form compact">
+                <input id="requestSubject" placeholder="Subject" required />
+                <input id="requestTitle" placeholder="Topic/Assignment Title" required />
+                <textarea id="requestDesc" rows="2" placeholder="Describe what you need..."></textarea>
+                <button type="submit" class="btn btn-secondary">Post Request</button>
+              </form>
+              <h4 style="margin-top:1rem">Requests Board</h4>
+              <ul id="requestsList" class="list"></ul>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <p>© <span id="year"></span> Study Organizer</p>
+        <a class="link" href="index.html"></a>
+      </div>
+    </footer>
+  </body>
+</html>
